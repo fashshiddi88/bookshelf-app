@@ -10,28 +10,23 @@ function addBuku() {
     const addYear = document.getElementById("inputBookYear").value;
     const isCompleted = document.getElementById("inputBookIsComplete").checked;
 
-    const book = makeBookshelf(addTitle, addAuthor, addYear, isCompleted);
-    const bookObject = composeBookObject(addTitle, addAuthor, addYear, isCompleted);
-
-    book[BOOK_ITEM_ID] = bookObject.id;
-    books.push(bookObject);
-
 
     if (isCompleted) {
     	const completedBookList = document.getElementById(COMPLETED_BOOKSHELF_LIST_ID);
-    	const dataBukuSudah = makeBookshelf(addTitle, addAuthor, addYear, true);
-    	completedBookList.append(dataBukuSudah);
+    	const book = makeBookshelf(addTitle, addAuthor, addYear, isCompleted);
+        const bookObject = composeBookObject(addTitle, addAuthor, addYear, true);
+        book[BOOK_ITEM_ID] = bookObject.id;
+        books.push(bookObject);
+    	completedBookList.append(book);
     }else{
     	const incompletedBookList = document.getElementById(INCOMPLETED_BOOKSHELF_LIST_ID);
-    	const dataBukuBelum = makeBookshelf(addTitle, addAuthor, addYear, false);
-    	incompletedBookList.append(dataBukuBelum);
+    	const book = makeBookshelf(addTitle, addAuthor, addYear, isCompleted);
+        const bookObject = composeBookObject(addTitle, addAuthor, addYear, false);
+        book[BOOK_ITEM_ID] = bookObject.id;
+        books.push(bookObject);
+    	incompletedBookList.append(book);
     }
 
-    
-
-    
-    
-    // incompletedBOOKList.append(belum);
     updateDataToStorage();
 }
 
@@ -55,8 +50,6 @@ function makeBookshelf(judul, penulis, tahun, isCompleted) {
     textContainer.classList.add("book_item");
     textContainer.append(textMakeTitle, textMakeAuthor, textMakeYear);
 
-	
-	
  	if(isCompleted){
         butContainer.append(createUndoButton(), createDeleteButton());
     } else {
@@ -123,7 +116,7 @@ function undoFromCompleted(taskElement){
 
     const book = findBook(taskElement[BOOK_ITEM_ID]);
     book.isCompleted = false;
-    newBook[BOOK_ITEM_ID] = book.id;
+    newUndo[BOOK_ITEM_ID] = book.id;
  
     listIncompleted.append(newUndo);
     taskElement.remove();
